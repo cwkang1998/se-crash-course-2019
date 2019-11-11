@@ -1,6 +1,34 @@
-# Full StackJS Lesson Plan
+# Session 2 - Actual Development: The Practicals
 
-## General Outline
+In this tutorial, we will be using the Client-Server Architecture for our application.
+
+With this, let's start the software development process that we are familiar before.
+
+## A brief mention on version control
+
+Version Control Systems had become one of the most crucial develop tools ever since their release. 
+
+## Pre software development process
+
+Remember what we've learnt last week, now it's time to apply them!
+
+
+
+## Frontend (React)
+
+- Design principle
+- Web interface: How to approach? Framework or Self written?
+- Mockup
+
+## Backend (Django with DRF)
+
+### API design
+
+## Testing and Test Driven Development
+
+### Coverage
+
+##### Things to write
 
 1. Internet, Http/s, Javascript, NodeJS, HTML, Web Architecture
 2. History of Everything
