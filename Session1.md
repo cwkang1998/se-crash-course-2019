@@ -129,7 +129,7 @@ In this case, stack refers to a collection of software and technologies used for
 - "Technology Name" stack -> Implies that you use mainly use the technology in the development of the system
 - JAM stack -> The new kid on the block, refers to Javascript, APIs and Markup. Lightning fast as it is generally statically generated.
 
-#### Tooling Choices -> Languages, Libraries, Frameworks and other technologies
+### Tooling Choices -> Languages, Libraries, Frameworks and other technologies
 
 What language is the best, what libraries is the best, what frameworks should I use, these are common questions coming from most starting to learn software development, but do they actually matter?
 
@@ -139,7 +139,7 @@ However, most of the time its not as black and white as it seems, since we have 
 
 During the times when they do matter, sufficient research should immedietely guide you to most of them, but we would have to **carefully examined them on their pros and cons based on requirements.** (e.g. Game development have a set ecosystem around them, Mobile development as well, some languages have certain features that makes them good for certain tasks, some frameworks fulfill your requirements easier due to their style or ability to integrate with other libraries, etc.) In these cases, not only do we have to take into account the details of our requirements, the system implementation, we still have to **take account into the team aspect as well.**
 
-#### Unexplored Territory -> things without predecessor or resources to references
+### Unexplored Territory -> things without predecessor or resources to references
 
 Sometimes we hit a complete deadend, hopefully not due to careless mistake during requirements gathering, when researching a certain features. Maybe some features that seems completely feasible ended up no being feasible; Or maybe some features exists in some other application which you wanted to implement, but can't seem to find a proper explicit solution? In these times, you have 2 options:
 
