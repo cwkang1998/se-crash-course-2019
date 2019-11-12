@@ -7,7 +7,7 @@ Ask many questions, and correct me if you find any faults. We are all here to le
 
 ## Table of Content
 
-<!-- - [Session 1: Before Development Begins](#session-1-before-development-begins) -->
+<!-- - [Session 1 - Before Development Begins](#session-1---before-development-begins) -->
   - [Table of Content](#table-of-content)
   - [On constant learning](#on-constant-learning)
     - [Resource for learning](#resource-for-learning)
@@ -19,8 +19,8 @@ Ask many questions, and correct me if you find any faults. We are all here to le
   - [First Step: Requirements](#first-step-requirements)
   - [Researching and Making Decisions](#researching-and-making-decisions)
     - [Technological Stack](#technological-stack)
-      - [Tooling Choices -> Languages, Libraries, Frameworks and other technologies](#tooling-choices---languages-libraries-frameworks-and-other-technologies)
-      - [Unexplored Territory -> things without predecessor or resources to references](#unexplored-territory---things-without-predecessor-or-resources-to-references)
+    - [Tooling Choices -> Languages, Libraries, Frameworks and other technologies](#tooling-choices---languages-libraries-frameworks-and-other-technologies)
+    - [Unexplored Territory -> things without predecessor or resources to references](#unexplored-territory---things-without-predecessor-or-resources-to-references)
   - [Development Concepts](#development-concepts)
     - [Key Concepts](#key-concepts)
     - [Target Platforms](#target-platforms)
