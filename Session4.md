@@ -22,4 +22,4 @@ Before we end this mini crash course, I remind all of you once more:
 
 > As a software developer, we must constantly learn and grow ourselves, so that we can adapt our skills in this ever evolving technology environment.
 
-Have fun learning and have fun developing.
+Have fun learning and have fun developing!

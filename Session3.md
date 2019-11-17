@@ -8,6 +8,7 @@ Most often than not, things don't go perfectly during the software development p
 
 ### Radical Requirements Changes
 
+The change of requirements during development could be said to be on of the most 
 Most common among all of the challenges, radical requirements changes is one of the most dreaded challenges that a team frequently faced, especially when dealing with a client that does not know what they want, or someone who have rapidly changing mindset on what they should have in their application.
 
 ### Resource Constraints
@@ -22,10 +23,17 @@ Most common among all of the challenges, radical requirements changes is one of 
 
 ### Technology Constraints
 
-## Deployment
+## Virtual Machine
 
-## CI/CD: A case study with Gitlab and Heroku
+## Continuous Integration & Deployment
+
+### A case study with Gitlab and Heroku
 
 First, let me show you an overview of the entire process.
 
-## Cloud Computing & Containerization
+
+
+## Cloud Computing
+
+## Containerization
+

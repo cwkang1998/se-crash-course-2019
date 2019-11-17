@@ -14,22 +14,27 @@
     - [Modelling](#modelling)
     - [Interaction](#interaction)
   - [Research](#research)
-  - [Frontend (React)](#frontend-react)
+  - [Frontend (React Native)](#frontend-react-native)
     - [Starting from Design](#starting-from-design)
     - [Best Practises](#best-practises)
     - [Design Guidelines](#design-guidelines)
     - [Before we continue, a litte context since JS moves faster than the speed of light](#before-we-continue-a-litte-context-since-js-moves-faster-than-the-speed-of-light)
-    - [What's React](#whats-react)
+    - [What's React & React Native(Expo)](#whats-react--react-nativeexpo)
     - [Why React](#why-react)
-    - [The use of React Component Libraries](#the-use-of-react-component-libraries)
     - [Beginning of the Project](#beginning-of-the-project)
-  - [Backend (Django with DRF)](#backend-django-with-drf)
-    - [Setting up a virtual environment](#setting-up-a-virtual-environment)
+    - [A brief introduction to React and its few core concepts](#a-brief-introduction-to-react-and-its-few-core-concepts)
+    - [The use of React Component Libraries](#the-use-of-react-component-libraries)
+    - [The first page, the Home Page](#the-first-page-the-home-page)
+  - [Backend](#backend)
+    - [Enter our framework of the day: Django](#enter-our-framework-of-the-day-django)
+      - [On the nature of django web framework](#on-the-nature-of-django-web-framework)
+    - [Virtual environment for Python](#virtual-environment-for-python)
+    - [Development tools](#development-tools)
+    - [Starting development! Creating a new django project](#starting-development-creating-a-new-django-project)
+    - [Creating our first app in django](#creating-our-first-app-in-django)
     - [API design](#api-design)
-  - [Connecting Front and Back](#connecting-front-and-back)
+    - [Connecting Front and Back](#connecting-front-and-back)
   - [Testing and Test Driven Development](#testing-and-test-driven-development)
-    - [Unit Tests](#unit-tests)
-    - [Functional Tests (End-to-end)](#functional-tests-end-to-end)
     - [Test Coverage](#test-coverage)
 
 ## Homework Sharing Session
@@ -123,7 +128,7 @@ Let's start with visualizing the application. As said before, this is the step w
 
 So, from the requirements we draw a general sketch on what would it look like.
 
-![Visualize Example](./assets/visualize.png)
+![Visualize Example](./assets/visualize.jpg)
 
 As you may see, it is generally a low fidelity prototype, designed to have an idea on how things should happen **from a visual persective (frontend view I guess)**
 
@@ -139,7 +144,7 @@ We can choose to show the data modelling with ERD. I normally use a severly lack
 
 The modelling should be done with requirements in mind, and should be able to capture data needed based on the requirements, be it the data from input, currently processed, output, records or third party, anything that would. However, take note that we do not need to model the data flow, merely needing to model those that we would be using. In a simple sense, one could say that we are actually aleady designing the database.
 
-![Modelling Example](./assets/modelling.png)
+![Modelling Example](./assets/modelling.jpg)
 
 One thing that people might be curious about especially those with some database knowledge is the applicability of ERD for NoSQL databases, especially since some of them don't really utilize concepts like keys, joins or relations. For that, I would argue that here we are mainly using ERD as a tool to visualize the data models involved, and that there is value in having a glimps, especially when you are trying to generally plan out your application and understand more about it.
 
@@ -149,13 +154,13 @@ Now that we have the visualization and the data models, we can proceed to design
 
 One way of doing that can be so:
 
-![Interaction Example](./assets/interactions.png)
+![Interaction Example](./assets/interactions.jpg)
 
 This can be a little difficult to understand, but all the rectangles refers to each visual page, and each circle refers to each data model. 3rd party APIs can also be included, represented as a triangle here, connecting to the data model.
 
 In another sense, the interaction can also represent the essential **architecture** of the application, represented like so:
 
-![Architecture Example](./assets/arch.png)
+![Architecture Example](./assets/arch.jpg)
 
 You might notice that we've gone for the client-server architecture here, mainly due to the material that we are covering (React frontend and Django Backend), which utilizes a SPA frontend that allows it to be more reactive if needed. This architecture also allow extention into a mobile application if need be in the future, as the APIs can be shared for both the SPA and the native app.
 
@@ -171,13 +176,11 @@ These research affects the implementation of key features and thus the other asp
 
 After the planning phase, the research would be more about how the implementation would work, and what technology best fit the problem faced. In this case, we are trying to learn React and Django with DRF, so we would just say that we've chose this as our approach.
 
-## Frontend (React)
+## Frontend (React Native)
 
-A well known and effective approach to software development is the front-to-end approach. This implies that the development starts from the frontend instead of from the backend. This is generally a good idea as it is very hard for us to get an idea on how the application will be like if we start from modelling the data, thus requiring more changes in the backend.
+A well known and effective approach to software development is the front-to-back approach. This implies that the development starts from the frontend instead of from the backend. This is generally a good idea as it is very hard for us to get an idea on how the application will be like if we start from modelling the data, thus requiring more changes in the backend.
 
-So, that said, let's start development. Make sure that you already have **NodeJS** and **create-react-app** installed on your computer!
-
-For those trying to use React Native for their mobile application, or those that are using other technologies not taught here, no worries. You can still learn some concepts here that might help you get started with your project, so hold on!
+Here, things would start to get technical. Do try to keep up, and if there are any questions, please do ask me.
 
 ### Starting from Design
 
@@ -210,16 +213,19 @@ Professionals from big companies spent a lot of time on designing a good interfa
 2. [Apple Design](https://developer.apple.com/design/)
 3. [Ant Design](https://ant.design/)
 4. [Material Design](https://material.io/design/)
+5. Etc. Many design guidelines are out there, with frameworks implementing them. Discover!
 
 ### Before we continue, a litte context since JS moves faster than the speed of light
 
-When studying React here, we will be using the newer **React Hooks** since its not only easier to read but also understand, and people had been stating its perks (quotation needed).
+When studying React & React Native here, we will be using the newer **React Hooks** since its not only easier to read but also understand, and people had been stating its perks (quotation needed).
 
-Do note that you may use whatever APIs provided by React to achieve the same purpose.
+Do note that you may use whatever library APIs provided by React to achieve the same purpose.
 
-### What's React
+### What's React & React Native(Expo)
 
 > ReactJS is an open source JavaScript library designed by Facebook for creating rich and engaging web apps fast and efficiently with minimal coding.
+> React Native combines the best parts of native development with React.
+> Expo is an open-source platform for making universal native apps for Android, iOS, and the web with JavaScript and React.
 
 ### Why React
 
@@ -231,23 +237,20 @@ Do note that you may use whatever APIs provided by React to achieve the same pur
 - Easy to Learn
 - Good ecosystem
 
-### The use of React Component Libraries
-
-React component libraries refers to libraries(or code) written by other people filled with reusable components that we can use directly. We ae using those here since they allow us to code easier. However, do remember that they are no different from us implementing the code ourselves!
-
-The component library that we will be using here is the Material-UI component library, which follows the Material Design Guidelines.
-
 ### Beginning of the Project
 
-After designing the frontend UI, we can finally start the development process. First, we start by creating a react application via `create-react-app` like so:
+After designing the frontend UI, we can finally start the development process. First, we install the helper for expo, or react native.
 
 ```bash
-npx create-react-app cs_forum_frontend
+npm install -g expo-cli
 ```
 
-It should take some time to install and initialize the entire thing. When it is done, run the following command on your command line:
+It should take some time to install and initialize the cli tools. When it is done, run the following command on your command line:
 
 ```bash
+# Create the project
+expo init cs_forum_frontend
+
 # Change directory into the created project
 cd cs_forum_frontend
 
@@ -255,41 +258,323 @@ cd cs_forum_frontend
 npm start
 ```
 
-If the application run as expected, with a screen that tells you to edit `App.js` then you've suceeded in starting the project!
+After running it, a browser window should pop up, showing something like this, or your terminal would have something like this.
 
-Now, let's install all the dependencies that we might need for this application. In `cs_forum_frontend`, do:
+![Browser View](./assets/expo_dev_ui2.png)
+![Cli view](./assets/expo_dev_ui1.png)
+
+This indicates that your computer is now running expo. Use your expo mobile app to scan the QR code to see it running on your phone!.
+
+Allow me to offer up some explaination on the file structure that you have.
 
 ```bash
-# Install material ui libraries
-npm install @material-ui/core
-
-# Install the roboto font
-npm install typeface-roboto
+cs_forum_frontend/
+    .gitignore
+    App.js
+    app.json
+    babel.config.js
+    package-lock.json
+    package.json
+    .expo/
+    .expo-shared/
+    .assets/
+    node_modules/
 ```
 
-## Backend (Django with DRF)
+In the folder, you can see `.gitignore`, which is a file that tells git what folder/file to ignore when checking into version control. There is `App.js` which is the main entry point to the application. `app.json` defines the configuration of the application, such as the icon, the supported platform and the name of the application. `babel.config.js` helps compile javascript into a suitable version for expo and react-native, which in this case, should be compiling it for native. `.expo` and `.expo-shared` folders are configuration for expo, when you are running the application for debugging. Finally, `package.json`, `package-lock.json` and `node_modules` are all for dependencies management, keeping track of downloaded dependencies.
 
-### Setting up a virtual environment
+### A brief introduction to React and its few core concepts
+
+First of all, React Native is basically just React but for mobiles. Thus, most of them would feel similar to you if you had ever played with react.
+
+Try looking into `App.js`, you should see something like this.
+
+```javascript
+export default function App() {
+  return (
+    <View style={styles.container}>
+      <Text>Open up App.js to start working on your app!</Text>
+    </View>
+  );
+}
+```
+
+The code you are looking at is es6, which is a standard for javascript that improves it. Basically, it is still javascript, similar to what was used for web sites and all.
+
+The HTML like syntax that you might have notice, is called JSX. Its basically like templating, which allows you to insert markup language inside code. The structure is intuitive especially to people coming from web development.
+
+Another thing you might have noticed is the fact that a function is returning the markup. In this case, the function can now be referred to as a React component. A component is some UI or non-UI element that does a certain thing, which can be use to build bigger things (an application). Components can be designed to be reusable, which reduces development time when a repetitive component would be needed. Components accepts parameters from their parents or creator, called **props** (properties), which allows some data to be conveyed from parents to child. Each component can also have their own **state**, which is variables that would affect the behaviour/view of the component as it changes.
+
+One can write components using functions or classes. Any function returning JSX would be recognised as a compoenent. As for classes, to become a component it would have to inherit the React.Component class. Both approaches are viable, but here since we are utilizing React Hooks, we will mainly focus on using functions.
+
+### The use of React Component Libraries
+
+React component libraries refers to libraries(or code) written by other people filled with reusable components that we can use directly. We ae using those here since they allow us to code easier. However, do remember that they are no different from us implementing the code ourselves!
+
+The component library that we will be using here is the React-Native-Paper component library, which follows the Material Design Guidelines.
+
+To install, simply do:
+
+```bash
+npm install react-native-paper
+```
+
+And to initialize the app with the theme.
+
+```javascript
+// App.js
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import {Provider as PaperProvider} from 'react-native-paper';
+
+export default function App() {
+  return (
+    <PaperProvider>
+      <View style={styles.container}>
+        <Text>Open up App.js to start working on your app!</Text>
+      </View>
+    </PaperProvider>
+  );
+}
+```
+
+### The first page, the Home Page
+
+Time to start developing the home page! If you remember the design we've decided on, there is a few key elements in the home page that we want:
+
+1. The navigation
+2. A search bar
+3. The topics that we can see
+4. The threads that are related to us
+
+Lets start with the navigation bar, since we are going to use it quite often.
+
+Let's create a new folder called `components/`, and create a new component called `AppBar.js`.
+
+```javascript
+// component/AppBarDrawer.js
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+
+export default function AppBarDrawer() {
+  return;
+}
+```
+
+After some research, we realise that we also need a navigation library, thus:
+
+```bash
+expo install react-navigation react-native-gesture-handler react-native-reanimated react-native-screens react-navigation-drawer
+```
+
+Now that we have the materials, let's start implementing.
+
+```javascript
+// components/AppBar.js
+import React from "react";
+import { View } from "react-native";
+import { Appbar } from "react-native-paper";
+
+export default function AppBarDrawer(props) {
+  onPress = () => {console.log("tests")};
+  return (
+    <View>
+      <Appbar.Header>
+        <Appbar.Action icon="menu" onPress={onPress} />
+        <Appbar.Content title="Test" />
+      </Appbar.Header>
+      {props.children}
+    </View>
+  );
+}
+```
+
+Let's create a Home Screen for the application as well. Create a directory called `screens` and create another component called `Home.js`.
+
+```javascript
+// screens/Home.js
+import React from "react";
+import { StyleSheet, Text } from "react-native";
+import AppBar from "../components/AppBar";
+
+export default function App() {
+  return (
+    <AppBar>
+      <Text>Home!</Text>
+    </AppBar>
+  );
+}
+```
+
+Let us also update `App.js` to reflect the changes.
+
+```javascript
+// App.js
+import React from "react";
+import { Provider as PaperProvider } from "react-native-paper";
+import Home from "./screens/Home";
+
+export default function App() {
+  return (
+    <PaperProvider>
+      <Home/>
+    </PaperProvider>
+  );
+}
+```
+
+You should now be able to see the home screen with app bar.
+
+![Home Page First Screen](./assets/homepage1.jpg)
+
+## Backend
+
+With our frontend completed, its time to move towards to backend. The implementation of the logic underneath. For backend, we will be using python with a certain web framework.
+
+### Enter our framework of the day: Django
+
+> Django is a high-level Python Web framework that encourages rapid development and clean, pragmatic design. Built by experienced developers, it takes care of much of the hassle of Web development, so you can focus on writing your app without needing to reinvent the wheel. It’s free and open source.
+
+Let's get it installed and readied. Make sure you have Python installed (version 3.6+), and lets get it started.
+
+#### On the nature of django web framework
+
+One thing that might get you confused here is how people would sometimes describe django as a **backend framework**. One thing that need to be made clear is that django is a **web framework**, infering that it is a **framework for building web application**. Django have the ability to employ templating which generates HTMl dynamically, common in a fully server side architecture (In which case you can argue that it does the front and backend together, but it is technically still a backend...), or it can decide to implement a HTTP API interface instead, returning JSON or XML, common in client-server architecture and microservices (which is more clear as it only handles mostly backend stuff). Both of them actually achieve the same outcome, with different presentation of data returned as a result of the processing (remember about http/s?). Basically, don't worry too much about the terms.
+
+### Virtual environment for Python
+
+Most often than not in development, we will rely on other people's packages. We install them to our machine, and import them in our application. Normally there are two spaces that you install in, the global space(system wide install) or the project space(local install). Most cases, unless our libraries are widely used by us in every single project, we wouldn't want them to be installed globally to prevent unintended conflict when dealing with multiple project, especially when each project might potentially have different dependencies.
+
+Enter virtual environment, where python creates a virtual space where every dependencies/packages would be store in one place. This ensures that each project would be self contained, preventing versioning conflict between projects from happening so often.
+
+To do that, you simple need to do this:
+
+```bash
+python -m venv .venv
+```
+
+This would create a virtual env inside the current directory.
+
+We then activate the environment so that we can work in it.
+
+```bash
+# Windows CMD
+call .venv/Scripts/activate.bat
+
+# Windows Powershell
+.venv/Scripts/activate
+
+# Mac & Linux
+# You might have to install extra package via your system package manager, specifically the package python3-venv
+source .venv/bin/activate
+```
+
+After activating the virtual environment, you should see something similar to this in the command line, which indicates you are in the environment:
+
+```bash
+(.venv) $
+```
+
+Let's check `pip freeze`, which shows the packages installed for python. It should show nothing for now, but we are going to add in some packages to help us in development, specifically django.
+
+```bash
+# Make sure you are in a virtual environment
+pip install django
+```
+
+Now let's do `pip freeze` again, and this time you should see something like this:
+
+```bash
+$ pip freeze
+Django==2.2.7
+pytz==2019.3
+sqlparse==0.3.0
+```
+
+The packages are installed within the virtual env!
+
+### Development tools
+
+Now, before we begin the actual development, we will need some tool to help us better in ensuring that the dev process would be smooth and comfortable. To do that, you can install these 2 packages:
+
+```bash
+pip install flake8 black
+```
+
+`flake8` is a linter, which looks through your code to tell you any syntatic error or bugs that you might encounter. They are basically code spell checkers.
+
+`black` is a formatter, which enforces a style on the code you write, and help formats your code nicely.
+
+These plugins works nicely with ides or code editors, and if you are using VSCode with the Python Plugin, they would help alot during development.
+
+### Starting development! Creating a new django project
+
+Let's start off by creating a new django project! We can do that simply by doing so:
+
+```bash
+django-admin startproject forum
+```
+
+A folder called forum should be created with the following file structure:
+
+```bash
+forum/
+    manage.py
+    forum/
+        __init__.py
+        settings.py
+        urls.py
+        wsgi.py
+```
+
+Let me offer a little bit of explaination. We've just created a project called `forum`. Inside this project there is a folder also called `forum`, which is the package of your actual project, and act as a place for you to configure project wide settings with `settings.py`, and configure routing to other apps via `urls.py`. `manage.py` is a command line utility that allows you to do things with the project easily.
+
+Now, let's try running the project. To do so, simply do `python manage.py runserver` and it should start running. You would see something like so:
+
+```bash
+$ python manage.py runserver
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have 17 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): admin, auth, contenttypes, sessions.
+Run 'python manage.py migrate' to apply them.
+November 18, 2019 - 04:11:46
+Django version 2.2.7, using settings 'forum.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+```
+
+Go to the url given at http://127.0.0.1:8000/ and you should see this.
+
+![first_page_django](./assets/django_first_page.png)
+
+Nice!
+
+### Creating our first app in django
+
+With it up and running, let's now 
 
 
 ### API design
 
-## Connecting Front and Back
+### Connecting Front and Back
+
+Now, with the api defined, we can connect our frontend with the backend. Let's implment this functionality.
 
 ## Testing and Test Driven Development
 
 If you haven't notice, we haven't been writing a single line of test cases ever since we started the tutorial which is fine because we are just trying to learn the basics. However, when developing commercialized application, testing can be crucial that your application do not fail during production, which may cause a major financial loss.
 
-So, how do we do testing then? Well there are multiple types of tests, from smaller test scale to bigger scale:
+So, how do we do testing then? Well there are multiple types of tests:
 
-1. Unit Tests
-2. Functional Tests (End-to-end)
-3. Black Box Tests (Alpha & Beta Tests)
-4. Market Acceptance Tests
-
-### Unit Tests
-
-### Functional Tests (End-to-end)
+1. Unit Testing
+2. Integration Testing
+3. Functional Testing (End-to-end)
+4. Ad-hoc testing
+5. Sanity Tests
+6. Acceptance Tests (Alpha & Beta tests)
 
 ### Test Coverage
 
