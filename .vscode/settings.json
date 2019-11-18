@@ -1,1 +1,7 @@
-{}
+{
+    "python.linting.pylintEnabled": false,
+    "python.linting.flake8Enabled": true,
+    "python.linting.enabled": true,
+    "python.pythonPath": "C:\\Users\\Lenovo\\Documents\\My Documents\\ReLearnInitiative\\Workshops\\CS_Internal_SE_Course\\tutorial\\cs_forum_backend\\.venv\\Scripts\\python.exe",
+    "python.formatting.provider": "black"
+}

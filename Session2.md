@@ -25,6 +25,11 @@
     - [A brief introduction to React and its few core concepts](#a-brief-introduction-to-react-and-its-few-core-concepts)
     - [The use of React Component Libraries](#the-use-of-react-component-libraries)
     - [The first page, the Home Page](#the-first-page-the-home-page)
+    - [Continue on the Home Page](#continue-on-the-home-page)
+    - [Mocking data](#mocking-data)
+    - [Starting on the Related Thread page](#starting-on-the-related-thread-page)
+    - [Profile](#profile)
+    - [Let's not forget logging in, and signing up](#lets-not-forget-logging-in-and-signing-up)
   - [Backend](#backend)
     - [Enter our framework of the day: Django](#enter-our-framework-of-the-day-django)
       - [On the nature of django web framework](#on-the-nature-of-django-web-framework)
@@ -32,7 +37,12 @@
     - [Development tools](#development-tools)
     - [Starting development! Creating a new django project](#starting-development-creating-a-new-django-project)
     - [Creating our first app in django](#creating-our-first-app-in-django)
+    - [Defining the models](#defining-the-models)
+    - [Views](#views)
+    - [Serialization and Rendering: Comparing Null differences](#serialization-and-rendering-comparing-null-differences)
+    - [Routing and URLS](#routing-and-urls)
     - [API design](#api-design)
+    - [Autogen Documentation](#autogen-documentation)
     - [Connecting Front and Back](#connecting-front-and-back)
   - [Testing and Test Driven Development](#testing-and-test-driven-development)
     - [Test Coverage](#test-coverage)
@@ -238,68 +248,14 @@ Do note that you may use whatever library APIs provided by React to achieve the 
 - Good ecosystem
 
 ### Beginning of the Project
-
-After designing the frontend UI, we can finally start the development process. First, we install the helper for expo, or react native.
-
-```bash
-npm install -g expo-cli
-```
-
-It should take some time to install and initialize the cli tools. When it is done, run the following command on your command line:
-
-```bash
-# Create the project
-expo init cs_forum_frontend
-
-# Change directory into the created project
-cd cs_forum_frontend
-
-# Actually run the code
-npm start
-```
-
-After running it, a browser window should pop up, showing something like this, or your terminal would have something like this.
-
-![Browser View](./assets/expo_dev_ui2.png)
-![Cli view](./assets/expo_dev_ui1.png)
-
-This indicates that your computer is now running expo. Use your expo mobile app to scan the QR code to see it running on your phone!.
-
-Allow me to offer up some explaination on the file structure that you have.
-
-```bash
-cs_forum_frontend/
-    .gitignore
-    App.js
-    app.json
-    babel.config.js
-    package-lock.json
-    package.json
-    .expo/
-    .expo-shared/
-    .assets/
-    node_modules/
-```
-
-In the folder, you can see `.gitignore`, which is a file that tells git what folder/file to ignore when checking into version control. There is `App.js` which is the main entry point to the application. `app.json` defines the configuration of the application, such as the icon, the supported platform and the name of the application. `babel.config.js` helps compile javascript into a suitable version for expo and react-native, which in this case, should be compiling it for native. `.expo` and `.expo-shared` folders are configuration for expo, when you are running the application for debugging. Finally, `package.json`, `package-lock.json` and `node_modules` are all for dependencies management, keeping track of downloaded dependencies.
+<!-- 
+In the folder, you can see `.gitignore`, which is a file that tells git what folder/file to ignore when checking into version control. There is `App.js` which is the main entry point to the application. `app.json` defines the configuration of the application, such as the icon, the supported platform and the name of the application. `babel.config.js` helps compile javascript into a suitable version for expo and react-native, which in this case, should be compiling it for native. `.expo` and `.expo-shared` folders are configuration for expo, when you are running the application for debugging. Finally, `package.json`, `package-lock.json` and `node_modules` are all for dependencies management, keeping track of downloaded dependencies. -->
 
 ### A brief introduction to React and its few core concepts
 
 First of all, React Native is basically just React but for mobiles. Thus, most of them would feel similar to you if you had ever played with react.
 
-Try looking into `App.js`, you should see something like this.
-
-```javascript
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
-  );
-}
-```
-
-The code you are looking at is es6, which is a standard for javascript that improves it. Basically, it is still javascript, similar to what was used for web sites and all.
+Try looking into `App.js`, the code you are looking at is es6, which is a standard for javascript that improves it. Basically, it is still javascript, similar to what was used for web sites and all.
 
 The HTML like syntax that you might have notice, is called JSX. Its basically like templating, which allows you to insert markup language inside code. The structure is intuitive especially to people coming from web development.
 
@@ -311,121 +267,17 @@ One can write components using functions or classes. Any function returning JSX 
 
 React component libraries refers to libraries(or code) written by other people filled with reusable components that we can use directly. We ae using those here since they allow us to code easier. However, do remember that they are no different from us implementing the code ourselves!
 
-The component library that we will be using here is the React-Native-Paper component library, which follows the Material Design Guidelines.
-
-To install, simply do:
-
-```bash
-npm install react-native-paper
-```
-
-And to initialize the app with the theme.
-
-```javascript
-// App.js
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import {Provider as PaperProvider} from 'react-native-paper';
-
-export default function App() {
-  return (
-    <PaperProvider>
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-      </View>
-    </PaperProvider>
-  );
-}
-```
-
 ### The first page, the Home Page
 
-Time to start developing the home page! If you remember the design we've decided on, there is a few key elements in the home page that we want:
+### Continue on the Home Page
 
-1. The navigation
-2. A search bar
-3. The topics that we can see
-4. The threads that are related to us
+### Mocking data
 
-Lets start with the navigation bar, since we are going to use it quite often.
+### Starting on the Related Thread page
 
-Let's create a new folder called `components/`, and create a new component called `AppBar.js`.
+### Profile
 
-```javascript
-// component/AppBarDrawer.js
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-
-export default function AppBarDrawer() {
-  return;
-}
-```
-
-After some research, we realise that we also need a navigation library, thus:
-
-```bash
-expo install react-navigation react-native-gesture-handler react-native-reanimated react-native-screens react-navigation-drawer
-```
-
-Now that we have the materials, let's start implementing.
-
-```javascript
-// components/AppBar.js
-import React from "react";
-import { View } from "react-native";
-import { Appbar } from "react-native-paper";
-
-export default function AppBarDrawer(props) {
-  onPress = () => {console.log("tests")};
-  return (
-    <View>
-      <Appbar.Header>
-        <Appbar.Action icon="menu" onPress={onPress} />
-        <Appbar.Content title="Test" />
-      </Appbar.Header>
-      {props.children}
-    </View>
-  );
-}
-```
-
-Let's create a Home Screen for the application as well. Create a directory called `screens` and create another component called `Home.js`.
-
-```javascript
-// screens/Home.js
-import React from "react";
-import { StyleSheet, Text } from "react-native";
-import AppBar from "../components/AppBar";
-
-export default function App() {
-  return (
-    <AppBar>
-      <Text>Home!</Text>
-    </AppBar>
-  );
-}
-```
-
-Let us also update `App.js` to reflect the changes.
-
-```javascript
-// App.js
-import React from "react";
-import { Provider as PaperProvider } from "react-native-paper";
-import Home from "./screens/Home";
-
-export default function App() {
-  return (
-    <PaperProvider>
-      <Home/>
-    </PaperProvider>
-  );
-}
-```
-
-You should now be able to see the home screen with app bar.
-
-![Home Page First Screen](./assets/homepage1.jpg)
+### Let's not forget logging in, and signing up
 
 ## Backend
 
@@ -554,10 +406,28 @@ Nice!
 
 ### Creating our first app in django
 
-With it up and running, let's now 
+With it up and running, let's now create our first app in django. In django, we refer to the entire project as a *"project"*, and a module as *"app"*. We can either create our own app, or we can use third party app that we might need for our use case. To create an app, we can utilize the `manage.py` utility like so:
 
+```bash
+# Let's create our first app
+python manage.py startapp threads
+```
+
+Here, we create an app called threads. Why name it so? Well, let's refer back to the modelling diagram we drew back then:
+
+![modelling again](./assets/modelling.jpg)
+
+### Defining the models
+
+### Views
+
+### Serialization and Rendering: Comparing Null differences
+
+### Routing and URLS
 
 ### API design
+
+### Autogen Documentation
 
 ### Connecting Front and Back
 
