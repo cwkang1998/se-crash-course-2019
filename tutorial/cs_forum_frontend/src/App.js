@@ -1,25 +1,50 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import "./App.css";
+import MyAppBar from "./components/MyAppBar";
+import LoginDialog from "./components/LoginDialog";
+import Home from "./screens/Home";
+import Thread from "./screens/Thread";
+import NewThread from "./screens/NewThread";
 
 function App() {
+  const [loginOpen, setLoginOpen] = useState(false);
+  const handleLoginBtn = () => {
+    setLoginOpen(true);
+  };
+
+  const handleLoginDialogClose = () => {
+    setLoginOpen(false);
+  };
+
+  const login = () => {};
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      {/* Shared App Bar here */}
+      <MyAppBar
+        homeURL="/"
+        createThreadURL="/newthread"
+        handleLoginBtn={handleLoginBtn}
+      >
+        <LoginDialog
+          open={loginOpen}
+          handleClose={handleLoginDialogClose}
+          handleLogin={login}
+        />
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route path="/thread">
+            <Thread />
+          </Route>
+          <Route path="/newthread">
+            <NewThread />
+          </Route>
+        </Switch>
+      </MyAppBar>
+    </Router>
   );
 }
 
