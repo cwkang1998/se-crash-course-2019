@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import Thread, Post
 
-# Register your models here.
+admin.register(Thread)
+admin.register(Post)

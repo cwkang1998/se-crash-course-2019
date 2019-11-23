@@ -1,3 +1,16 @@
 from django.db import models
+from django.contrib.auth.models import User
 
-# Create your models here.
+
+class Thread(models.Model):
+    owner_id = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+class Post(models.Model):
+    user_id = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    thread_id = models.ForeignKey(to=Thread, on_delete=models.CASCADE)
+    content = models.TextField()
+    updated_at = models.DateTimeField(auto_now=True)
