@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, TextField, Button } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 
 const useStyles = makeStyles(theme => ({
@@ -14,6 +15,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function NewThread(props) {
   const classes = useStyles();
+  const history = useHistory();
   const { authToken, setAuthToken } = useContext(AuthContext);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -30,11 +32,11 @@ export default function NewThread(props) {
         content: content
       })
     });
-    if (req.status === 200) {
+    if (req.status === 201) {
       let data = await req.json();
       console.log(data);
+      history.push(`/thread/${data.id}`);
     }
-    console.log(req);
   };
 
   return (

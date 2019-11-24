@@ -14,9 +14,9 @@ class ThreadListCreateView(APIView):
 
     def get(self, request, format=None):
         mine = request.query_params.get("mine", 0)
-        queryset = Thread.objects.all()
+        queryset = Thread.objects.all().order_by("-created_at")
         if mine == 1:
-            queryset = Thread.objects.filter(owner_id=request.user).order_by("-created_at")
+            queryset = queryset.filter(owner_id=request.user)
         serializer = ThreadSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -42,7 +42,7 @@ class PostListCreateView(APIView):
 
     def get(self, request, format=None):
         thread_id = request.query_params.get("thread_id", 0)
-        queryset = Post.objects.filter(thread_id=thread_id).order_by("-id")
+        queryset = Post.objects.filter(thread_id=thread_id).order_by("id")
         serializer = PostSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -50,8 +50,10 @@ class PostListCreateView(APIView):
         serializer = PostSerializer(data=request.data)
         if serializer.is_valid():
             created = serializer.save(user_id=request.user)
-            return Response(created, status=status.HTTP_201_CREATED)
+            created = PostSerializer(created)
+            return Response(created.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class PostRetrievedUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()

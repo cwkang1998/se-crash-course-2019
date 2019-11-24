@@ -47,7 +47,7 @@ export default function MyAppBar(props) {
               CS Forum
             </Link>
           </Typography>
-          {displayLogin === true ? (
+          {displayLogin ? (
             <Button color="inherit" variant="outlined" onClick={handleLoginBtn}>
               Login
             </Button>

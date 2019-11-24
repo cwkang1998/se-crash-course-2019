@@ -9,11 +9,11 @@ import NewThread from "./screens/NewThread";
 import AuthContext from "./context/AuthContext";
 
 function App() {
+  const { authToken, setAuthToken } = useContext(AuthContext);
   const [loginOpen, setLoginOpen] = useState(false);
   const [username, setUsername] = useState("");
   const [displayLogin, setDisplayLogin] = useState(true);
   const [pass, setPass] = useState("");
-  const { authToken, setAuthToken } = useContext(AuthContext);
 
   const handleLoginBtn = () => {
     setLoginOpen(true);
@@ -40,6 +40,8 @@ function App() {
       setAuthToken(data.token);
       setDisplayLogin(false);
       setLoginOpen(false);
+      setUsername("");
+      setPass("");
     }
     console.log(req);
   };
@@ -71,7 +73,7 @@ function App() {
           <Route exact path="/">
             <Home />
           </Route>
-          <Route path="/thread">
+          <Route path="/thread/:id">
             <Thread />
           </Route>
           <Route path="/newthread">

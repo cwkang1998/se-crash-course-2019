@@ -38,53 +38,20 @@ export default function Home(props) {
   }, []);
 
   return (
-    <Grid container>
-      <Grid item sm={4}>
-        <List className={classes.listContainer}>
-          <ListItem alignItems="flex-start">
-            <ListItemText
-              primary={<Link to="/thread">{"Brunch this weekend?"}</Link>}
-              secondary={"Date"}
-            />
-          </ListItem>
-          <Divider variant="inset" component="li" />
-          <ListItem alignItems="flex-start">
-            <ListItemText
-              primary={<Link to="/thread">{"Summer BBQ"}</Link>}
-              secondary={"Date"}
-            />
-          </ListItem>
-          <Divider variant="inset" component="li" />
-          <ListItem alignItems="flex-start">
-            <ListItemText
-              primary={<Link to="/thread">{"Oui Oui"}</Link>}
-              secondary={"Date"}
-            />
-          </ListItem>
-        </List>
-      </Grid>
+    <Grid container justify="center">
       <Grid item sm={8}>
         <List className={classes.listContainer}>
-          <ListItem alignItems="flex-start">
-            <ListItemText
-              primary={<Link to="/thread">{"Brunch this weekend?"}</Link>}
-              secondary={"Date"}
-            />
-          </ListItem>
-          <Divider variant="inset" component="li" />
-          <ListItem alignItems="flex-start">
-            <ListItemText
-              primary={<Link to="/thread">{"Summer BBQ"}</Link>}
-              secondary={"Date"}
-            />
-          </ListItem>
-          <Divider variant="inset" component="li" />
-          <ListItem alignItems="flex-start">
-            <ListItemText
-              primary={<Link to="/thread">{"Oui Oui"}</Link>}
-              secondary={"Date"}
-            />
-          </ListItem>
+          {data.map(({ id, title, created_at }) => (
+            <React.Fragment key={id}>
+              <ListItem alignItems="flex-start" key={id}>
+                <ListItemText
+                  primary={<Link to={`/thread/${id}`}>{title}</Link>}
+                  secondary={new Date(created_at).toString()}
+                />
+              </ListItem>
+              <Divider component="li" />
+            </React.Fragment>
+          ))}
         </List>
       </Grid>
     </Grid>
