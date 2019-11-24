@@ -1,7 +1,14 @@
-from rest_framework.routers import SimpleRouter
-from .views import ThreadViewSet, PostViewSet
+from django.urls import path
+from .views import (
+    ThreadListCreateView,
+    ThreadRetrievedUpdateDestroyView,
+    PostListCreateView,
+    PostRetrievedUpdateDestroyView,
+)
 
-router = SimpleRouter()
-router.register("thread", ThreadViewSet, base_name="thread")
-router.register("post", PostViewSet, base_name="post")
-urlpatterns = router.urls
+urlpatterns = [
+    path("", ThreadListCreateView.as_view()),
+    path("<int:id>/", ThreadRetrievedUpdateDestroyView.as_view()),
+    path("post/", PostListCreateView.as_view()),
+    path("post/<int:id>/", PostRetrievedUpdateDestroyView.as_view()),
+]

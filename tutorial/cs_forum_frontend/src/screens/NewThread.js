@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import { TextField, Button } from "@material-ui/core";
+import { Grid, TextField, Button } from "@material-ui/core";
+import AuthContext from "../context/AuthContext";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -14,25 +14,56 @@ const useStyles = makeStyles(theme => ({
 
 export default function NewThread(props) {
   const classes = useStyles();
+  const { authToken, setAuthToken } = useContext(AuthContext);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+
+  const handleCreate = async () => {
+    let req = await fetch("http://localhost:8000/thread/", {
+      method: "post",
+      headers: {
+        Authorization: `Token ${authToken}`,
+        "content-type": "application/json"
+      },
+      body: JSON.stringify({
+        title: title,
+        content: content
+      })
+    });
+    if (req.status === 200) {
+      let data = await req.json();
+      console.log(data);
+    }
+    console.log(req);
+  };
 
   return (
     <Grid container justify="center" className={classes.root}>
-      <Grid item justify="center" sm={6}>
+      <Grid item sm={6}>
         <TextField
           label="Title"
           variant="outlined"
+          value={title}
+          onChange={event => setTitle(event.target.value)}
           fullWidth
           className={classes.formEle}
         />
         <TextField
           label="Content"
+          variant="outlined"
+          value={content}
+          onChange={event => setContent(event.target.value)}
           multiline
           rows="4"
-          variant="outlined"
           fullWidth
           className={classes.formEle}
         />
-        <Button color="primary" variant="contained" fullWidth>
+        <Button
+          color="primary"
+          variant="contained"
+          onClick={handleCreate}
+          fullWidth
+        >
           Create
         </Button>
       </Grid>

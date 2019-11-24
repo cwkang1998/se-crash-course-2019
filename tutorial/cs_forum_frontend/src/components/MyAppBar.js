@@ -26,7 +26,13 @@ const useStyles = makeStyles(theme => ({
 export default function MyAppBar(props) {
   const classes = useStyles();
   const history = useHistory();
-  const { homeURL, createThreadURL, handleLoginBtn } = props;
+  const {
+    homeURL,
+    createThreadURL,
+    displayLogin,
+    handleLoginBtn,
+    handleLogoutBtn
+  } = props;
 
   const handleCreateThread = () => {
     history.push(createThreadURL);
@@ -41,18 +47,30 @@ export default function MyAppBar(props) {
               CS Forum
             </Link>
           </Typography>
-          <Button
-            color="inherit"
-            variant="outlined"
-            className={classes.menuButton}
-            endIcon={<AddIcon />}
-            onClick={handleCreateThread}
-          >
-            Create New Thread
-          </Button>
-          <Button color="inherit" variant="outlined" onClick={handleLoginBtn}>
-            Login
-          </Button>
+          {displayLogin === true ? (
+            <Button color="inherit" variant="outlined" onClick={handleLoginBtn}>
+              Login
+            </Button>
+          ) : (
+            <React.Fragment>
+              <Button
+                color="inherit"
+                variant="outlined"
+                className={classes.menuButton}
+                endIcon={<AddIcon />}
+                onClick={handleCreateThread}
+              >
+                Create New Thread
+              </Button>
+              <Button
+                color="inherit"
+                variant="outlined"
+                onClick={handleLogoutBtn}
+              >
+                Logout
+              </Button>
+            </React.Fragment>
+          )}
         </Toolbar>
       </AppBar>
       {props.children}

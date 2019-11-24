@@ -6,11 +6,11 @@ class ThreadSerializer(ModelSerializer):
     class Meta:
         model = Thread
         fields = "__all__"
-        read_only_fields = ["created_at"]
+        read_only_fields = ["owner_id", "created_at"]
 
 
 class PostSerializer(ModelSerializer):
     class Meta:
         model = Post
         fields = "__all__"
-        read_only_fields = ["updated_at"]
+        read_only_fields = ["owner_id", "updated_at"]

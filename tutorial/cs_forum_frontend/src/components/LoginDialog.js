@@ -14,7 +14,15 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function LoginDialog(props) {
-  const { open, handleClose, handleLogin } = props;
+  const {
+    open,
+    handleClose,
+    handleLogin,
+    username,
+    password,
+    setUsername,
+    setPassword
+  } = props;
   const classes = useStyles();
 
   return (
@@ -31,6 +39,10 @@ export default function LoginDialog(props) {
             id="name"
             label="Username"
             type="text"
+            value={username}
+            onChange={event => {
+              setUsername(event.target.value);
+            }}
             fullWidth
             className={classes.formField}
           />
@@ -38,6 +50,10 @@ export default function LoginDialog(props) {
             id="password"
             label="Password"
             type="password"
+            value={password}
+            onChange={event => {
+              setPassword(event.target.value);
+            }}
             fullWidth
             className={classes.formField}
           />

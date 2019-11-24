@@ -25,7 +25,7 @@ SECRET_KEY = "qpjg)qei2yws=$h28ce&b78_#&u_b9zvg=w#6_j9p&@e&iw6y+"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -39,11 +39,13 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "rest_framework.authtoken",
+    "corsheaders",
     "account",
     "threads",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -119,3 +121,6 @@ STATIC_URL = "/static/"
 
 # DRF
 REST_FRAMEWORK = {}
+
+# Django cors
+CORS_ORIGIN_ALLOW_ALL = True
