@@ -12,15 +12,9 @@ import TextField from "@material-ui/core/TextField";
 import AuthContext from "../context/AuthContext";
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1
-  },
   listContainer: {
     width: "100%",
     backgroundColor: theme.palette.background.paper
-  },
-  inline: {
-    display: "inline"
   },
   replyBox: {
     padding: theme.spacing(2)

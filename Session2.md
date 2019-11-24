@@ -14,23 +14,24 @@
     - [Modelling](#modelling)
     - [Interaction](#interaction)
   - [Research](#research)
-  - [Frontend (React Native)](#frontend-react-native)
+  - [Frontend (React)](#frontend-react)
     - [Starting from Design](#starting-from-design)
     - [Best Practises](#best-practises)
     - [Design Guidelines](#design-guidelines)
     - [Before we continue, a litte context since JS moves faster than the speed of light](#before-we-continue-a-litte-context-since-js-moves-faster-than-the-speed-of-light)
-    - [What's React & React Native(Expo)](#whats-react--react-nativeexpo)
+    - [What's React](#whats-react)
     - [Why React](#why-react)
-    - [Beginning of the Project](#beginning-of-the-project)
     - [A brief introduction to React and its few core concepts](#a-brief-introduction-to-react-and-its-few-core-concepts)
     - [The use of React Component Libraries](#the-use-of-react-component-libraries)
-    - [The first page, the Home Page](#the-first-page-the-home-page)
-    - [Continue on the Home Page](#continue-on-the-home-page)
-    - [Mocking data](#mocking-data)
-    - [Starting on the Related Thread page](#starting-on-the-related-thread-page)
-    - [Profile](#profile)
-    - [Let's not forget logging in, and signing up](#lets-not-forget-logging-in-and-signing-up)
-  - [Backend](#backend)
+    - [Making an MVP](#making-an-mvp)
+    - [Structuring your application in React](#structuring-your-application-in-react)
+    - [The first screen, the Home Screen](#the-first-screen-the-home-screen)
+    - [Making a Navigation Bar](#making-a-navigation-bar)
+    - [The page for creating threads](#the-page-for-creating-threads)
+    - [Routing](#routing)
+    - [Starting on the Thread screen](#starting-on-the-thread-screen)
+    - [Let's not forget logging in](#lets-not-forget-logging-in)
+  - [Backend (Django)](#backend-django)
     - [Enter our framework of the day: Django](#enter-our-framework-of-the-day-django)
       - [On the nature of django web framework](#on-the-nature-of-django-web-framework)
     - [Virtual environment for Python](#virtual-environment-for-python)
@@ -42,8 +43,7 @@
     - [Serialization and Rendering: Comparing Null differences](#serialization-and-rendering-comparing-null-differences)
     - [Routing and URLS](#routing-and-urls)
     - [API design](#api-design)
-    - [Autogen Documentation](#autogen-documentation)
-    - [Connecting Front and Back](#connecting-front-and-back)
+  - [Connecting Front to Back](#connecting-front-to-back)
   - [Testing and Test Driven Development](#testing-and-test-driven-development)
     - [Test Coverage](#test-coverage)
 
@@ -168,10 +168,6 @@ One way of doing that can be so:
 
 This can be a little difficult to understand, but all the rectangles refers to each visual page, and each circle refers to each data model. 3rd party APIs can also be included, represented as a triangle here, connecting to the data model.
 
-In another sense, the interaction can also represent the essential **architecture** of the application, represented like so:
-
-![Architecture Example](./assets/arch.jpg)
-
 You might notice that we've gone for the client-server architecture here, mainly due to the material that we are covering (React frontend and Django Backend), which utilizes a SPA frontend that allows it to be more reactive if needed. This architecture also allow extention into a mobile application if need be in the future, as the APIs can be shared for both the SPA and the native app.
 
 Do note that, this application can be done fully from django alone with a fully server side architecture, with good results. In fact, I believe most forums employ the fully server side architecture as forums do not really need the reactivity with their use case, so you can say we are slightly overengineering this.
@@ -186,7 +182,7 @@ These research affects the implementation of key features and thus the other asp
 
 After the planning phase, the research would be more about how the implementation would work, and what technology best fit the problem faced. In this case, we are trying to learn React and Django with DRF, so we would just say that we've chose this as our approach.
 
-## Frontend (React Native)
+## Frontend (React)
 
 A well known and effective approach to software development is the front-to-back approach. This implies that the development starts from the frontend instead of from the backend. This is generally a good idea as it is very hard for us to get an idea on how the application will be like if we start from modelling the data, thus requiring more changes in the backend.
 
@@ -227,11 +223,11 @@ Professionals from big companies spent a lot of time on designing a good interfa
 
 ### Before we continue, a litte context since JS moves faster than the speed of light
 
-When studying React & React Native here, we will be using the newer **React Hooks** since its not only easier to read but also understand, and people had been stating its perks (quotation needed).
+When studying React here, we will be using the newer **React Hooks** since its not only easier to read but also understand, and people had been stating its perks (quotation needed).
 
 Do note that you may use whatever library APIs provided by React to achieve the same purpose.
 
-### What's React & React Native(Expo)
+### What's React
 
 > ReactJS is an open source JavaScript library designed by Facebook for creating rich and engaging web apps fast and efficiently with minimal coding.
 > React Native combines the best parts of native development with React.
@@ -247,13 +243,7 @@ Do note that you may use whatever library APIs provided by React to achieve the 
 - Easy to Learn
 - Good ecosystem
 
-### Beginning of the Project
-<!-- 
-In the folder, you can see `.gitignore`, which is a file that tells git what folder/file to ignore when checking into version control. There is `App.js` which is the main entry point to the application. `app.json` defines the configuration of the application, such as the icon, the supported platform and the name of the application. `babel.config.js` helps compile javascript into a suitable version for expo and react-native, which in this case, should be compiling it for native. `.expo` and `.expo-shared` folders are configuration for expo, when you are running the application for debugging. Finally, `package.json`, `package-lock.json` and `node_modules` are all for dependencies management, keeping track of downloaded dependencies. -->
-
 ### A brief introduction to React and its few core concepts
-
-First of all, React Native is basically just React but for mobiles. Thus, most of them would feel similar to you if you had ever played with react.
 
 Try looking into `App.js`, the code you are looking at is es6, which is a standard for javascript that improves it. Basically, it is still javascript, similar to what was used for web sites and all.
 
@@ -261,27 +251,902 @@ The HTML like syntax that you might have notice, is called JSX. Its basically li
 
 Another thing you might have noticed is the fact that a function is returning the markup. In this case, the function can now be referred to as a React component. A component is some UI or non-UI element that does a certain thing, which can be use to build bigger things (an application). Components can be designed to be reusable, which reduces development time when a repetitive component would be needed. Components accepts parameters from their parents or creator, called **props** (properties), which allows some data to be conveyed from parents to child. Each component can also have their own **state**, which is variables that would affect the behaviour/view of the component as it changes.
 
-One can write components using functions or classes. Any function returning JSX would be recognised as a compoenent. As for classes, to become a component it would have to inherit the React.Component class. Both approaches are viable, but here since we are utilizing React Hooks, we will mainly focus on using functions.
+One can write components using functions or classes. Any function returning JSX would be recognised as a component. As for classes, to become a component it would have to inherit the React.Component class. Both approaches are viable, but here since we are utilizing React Hooks, we will mainly focus on function-based components.
 
 ### The use of React Component Libraries
 
 React component libraries refers to libraries(or code) written by other people filled with reusable components that we can use directly. We ae using those here since they allow us to code easier. However, do remember that they are no different from us implementing the code ourselves!
 
-### The first page, the Home Page
+The component library that we are using is [Material-UI](https://material-ui.com/), which follows the material design guidelines. There are many out there, which you are free to explore.
 
-### Continue on the Home Page
+### Making an MVP
 
-### Mocking data
+Let's focus on making a minimal viable product of a forum for this tutorial. Referring to the design, let's strip it down a little bit and make a web app with 4 screens. Here screens refers to how many distinct "pages" the app has. (Technically, the app only has one html document, with javascript rendering any changes onto the html document, so its actually one page only)
 
-### Starting on the Related Thread page
+1. Home Screen -> Page that shows all the threads
+2. Create New Thread Screen -> Page for user to create a new thread
+3. Thread Screen -> A single thread view with all the replies and conversation happening
+4. Login Screen -> Where the user actually login
 
-### Profile
+You might be wondering: Hey! Wheres the register screen, or the Topic screen? We will not be implementing those here, but feel free to try implementing them yourself after this!
 
-### Let's not forget logging in, and signing up
+### Structuring your application in React
 
-## Backend
+When developing with React, we normally follow a certain folder structure, or project structure to ensure everything is nicely organized so we can maintain the code easier later.
 
-With our frontend completed, its time to move towards to backend. The implementation of the logic underneath. For backend, we will be using python with a certain web framework.
+For me, when developing in react, I usually have the following structure:
+
+```bash
+src/
+    components/
+    context/
+    screens/
+    App.js
+    index.js
+    serviceWorker.js
+```
+
+`components` would hold all the reusable and shared components for the application. `context` holds all the React context (You can think of them as services) that I defined and use in the applicaiton. `screens` holds all the screens for the application built from multiple components.
+
+### The first screen, the Home Screen
+
+Let's begin from the Home Screen. The home screen should show all the threads that was created by all users, ordered by their created date. Thus, let's begin.
+
+Starting with the base code, let's name the file `Home.js` and put it in the `screen/` folder:
+
+```javascript
+import React from "react";
+
+export default function Home(props){
+  return <div></div>;
+}
+```
+
+So, now we have a basic React component. We probably want it to display a list of threads, centered in the middle of the app, showing its title and maybe...the date of creation. Also, it should be ordered based on its date of creation.
+
+Thus, we look into the `@material-ui/core` library and try to find some components that can help us achieve this. We can find multiple suitable components that we can build on, namely `Grid` which helps us layout our screens, and `List` which helps us build a list to show all the threads. We can also utilize the `Divider` component to divide the list items.
+
+So, let's start with using `Grid`:
+
+```javascript
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";]
+
+export default function Home(props) {
+
+  return (
+    <Grid container justify="center">
+      <Grid item sm={8}>
+      </Grid>
+    </Grid>
+  );
+}
+```
+
+The `Grid` component creates a Grid layout that divides your screen into 12 sections. You can then specify how much of the sections you want to occupy using the breakpoints props, which here we are using `sm={8}`, which sets the breakpoints to change the size at small screens size values(phone like sizes), with lesser screen size causing the `Grid` to occupy the whole screen, and larger ones limited to occupying 8 columns only. The `justify="center"` prop specifies the items inside the container would be centered. With the use of `Grid`, your content would be responsive and change according to screen sizes. With this setup, we can now move forward to building the list.
+
+```javascript
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import Divider from "@material-ui/core/Divider";
+import ListItemText from "@material-ui/core/ListItemText";
+
+const useStyles = makeStyles(theme => ({
+  listContainer: {
+    width: "100%",
+    backgroundColor: theme.palette.background.paper
+  }
+}));
+
+export default function Home(props) {
+  return (
+    <Grid container justify="center">
+      <Grid item sm={8}>
+        <List className={classes.listContainer}>
+            <ListItem alignItems="flex-start">
+              <ListItemText
+                primary={"Thread Title"}
+                secondary={"Thread Publish Date"}
+              />
+            </ListItem>
+            <Divider component="li" />
+            <ListItem alignItems="flex-start">
+              <ListItemText
+                primary={"Thread Title"}
+                secondary={"Thread Publish Date"}
+              />
+            </ListItem>
+            <Divider component="li" />
+        </List>
+      </Grid>
+    </Grid>
+  );
+}
+```
+
+Take a second to look at the code. Here, what we are doing is fairly simple. We add a new `List` component inside `Grid`, and start adding `ListItem` with its content inside the `List`. Then, we use a `Divider` to seperate multiple `ListItem` to give it a better look.
+
+At this point, you might get confused; But no worries, what we are actually doing is actually still writing web based code, however we are utilizing material-ui's component library to help us quickly come up with a good looking webapp quickly. The underlying technologies is still javascript, html and css, and as you see, I did use some css above to actually style the list.
+
+At this point, you might also had already notice the use `props`. When you specify some sort of parameters when adding components to alter its values or behaviours, you are actually passing in `props` so that they know what they should do. An example:
+
+```javascript
+<ListItemText
+  primary={"Thread Title"}
+  secondary={"Thread Publish Date"}
+/>
+```
+
+Here, when you pass in `primary={"Thread Title"}`, you are actually telling the component that: For the `primary` variables in the component, I want it to become `"Thread Title"`. This would then change the rendering output, showing a `ListItemText` with the value given in `primary`. One way of thinking about `props` is essentially that they act as a function parameter of sorts, or "component parameters" in this case. `props` is one of the main methods to pass data from components to components.
+
+Now, although we've been working on this screen, we don't really get to see the output, so to let us see the result, let's go the `App.js` and make some modification.
+
+```javascript
+import React from "react";
+import "./App.css";
+import Home from "./screens/Home";
+
+function App() {
+  return <Home />;
+}
+
+export default App;
+```
+
+Try doing `npm start` in your console, you should see your page up and running.
+
+### Making a Navigation Bar
+
+A home page is good and all, but now we need to navigate around with some means. Let's make a simple navigation bar, again with the help of `@material-ui/core` library. After checking the documentation, we are delighted to find a navigation element that we can use, called AppBar. To start, lets create a file called `MyAppBar.js` inside the `components/` folder. Lets add these in:
+
+```javascript
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import AddIcon from "@material-ui/icons/Add";
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1
+  },
+  menuButton: {
+    marginRight: theme.spacing(2)
+  },
+  title: {
+    flexGrow: 1
+  },
+}));
+
+export default function MyAppBar(props) {
+  const classes = useStyles();
+
+  return (
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6" className={classes.title}>
+              CS Forum
+          </Typography>
+            <Button
+              color="inherit"
+              variant="outlined"
+              className={classes.menuButton}
+              endIcon={<AddIcon />}
+            >
+              Create New Thread
+            </Button>
+            <Button color="inherit" variant="outlined" >
+              Login
+            </Button>
+          )}
+        </Toolbar>
+      </AppBar>
+    </div>
+  );
+}
+```
+
+This code is actually a modified code taken directly from material-ui's documentation. Here, you can see we created a very basic app bar with the library, with 2 buttons, one for creating new thread, another one for logging in. Take some time to read and understand the code. (Note: Check documentation if you have anything that you have some question to.)
+
+To take a look at this appbar that we've made, you can replace `Home` with  `MyAppBar` in `App.js`.
+
+```javascript
+import React from "react";
+import "./App.css";
+import Home from "./screens/Home";
+import MyAppBar from "./components/MyAppBar"
+
+function App() {
+  return <MyAppBar />;
+}
+
+export default App;
+```
+
+Nice! But what if we want to have the App bar always be there for the rest of the web application experience? First of all, we should put the `MyAppBar` at a place that shares all the screens, since all of them needs it to navigate, which now happens to be `App.js`. We want it there because putting it there would reduce the amount of rendering each screen would have to do each time they load up, and also it complicates things when we want the login button or create thread button to change based on the current authentication state.
+
+So how do we do that? Well, we can rely `props`. There is a `props` element called `children` that contains the element that is wrapped inside an element. Like so:
+
+```javascript
+// ComponentParent is wrapping ComponentChild
+<ComponentParent>
+  <ComponentChild>
+  </ComponentChild>
+</ComponentParent>
+
+// So, now ComponentParent can access ComponentChild via props.children
+```
+
+Applying it in our application:
+
+```javascript
+// MyAppBar.js
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import AddIcon from "@material-ui/icons/Add";
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1
+  },
+  menuButton: {
+    marginRight: theme.spacing(2)
+  },
+  title: {
+    flexGrow: 1
+  },
+}));
+
+export default function MyAppBar(props) {
+  const classes = useStyles();
+
+  return (
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6" className={classes.title}>
+              CS Forum
+          </Typography>
+            <Button
+              color="inherit"
+              variant="outlined"
+              className={classes.menuButton}
+              endIcon={<AddIcon />}
+            >
+              Create New Thread
+            </Button>
+            <Button color="inherit" variant="outlined" >
+              Login
+            </Button>
+          )}
+        </Toolbar>
+      </AppBar>
+      {props.children}
+    </div>
+  );
+}
+```
+
+```javascript
+import React from "react";
+import "./App.css";
+import Home from "./screens/Home";
+import MyAppBar from "./components/MyAppBar"
+
+function App() {
+  return (
+    <MyAppBar>
+      <Home>
+    </MyAppBar>
+  );
+}
+
+export default App;
+```
+
+Now it works!
+
+### The page for creating threads
+
+Ok, now, let's start creating a page for creating new threads.
+
+Each threads would have its own title and contents. So, to let user create a thread, we need a form with two of these as text fields.
+
+Easy enough right? Let's get started!
+
+Looking through the documentation for `@material-ui/core` library, we can use their `TextFields` component directly.
+
+So, let's make a screen with just a form, name it `NewThread.js` and put it inside the `screens/` folder.
+
+```javascript
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import { Grid, TextField, Button } from "@material-ui/core";
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    padding: theme.spacing(4)
+  },
+  formEle: {
+    marginBottom: theme.spacing(2)
+  }
+}));
+
+export default function NewThread(props) {
+  const classes = useStyles();
+
+  return (
+    <Grid container justify="center" className={classes.root}>
+      <Grid item sm={6}>
+        <TextField
+          label="Title"
+          variant="outlined"
+          fullWidth
+          className={classes.formEle}
+        />
+        <TextField
+          label="Content"
+          variant="outlined"
+          multiline
+          rows="4"
+          fullWidth
+          className={classes.formEle}
+        />
+        <Button
+          color="primary"
+          variant="contained"
+          fullWidth
+        >
+          Create
+        </Button>
+      </Grid>
+    </Grid>
+  );
+}
+```
+
+Again, the Grids are here to layout the screen, in addition to ensuring responsiveness for your application. Then we just add 2 `TextField`s and a `Button` for creating a new thread.
+
+To see how it looks, we can replace the `Home` screen inside `App.js` to take a look at how `NewThread` screen would look like.
+
+Now, since we would need to take the newest values of the title and content from the `TextField`s when we want to create a new thread, we should add internal state so that we can retrieve or change these values when needed, this is where `state` comes in.
+
+`state` is a variable that belongs to a component that is mutable/changeable. It is used when you have some sort of internal values that would require a re-rendering of the component when it is updated.
+
+In this case, we would want the value of `TextField` to be saved and recorded on each change, so that we can access it later when the create button is pressed. So, to do that, we can utilize the React Hook `useState()`. The `useState()` hook creates a state and a function that sets the value of the set, which we can then use to manage component states in function-based components. We can use it like so:
+
+```javascript
+import React, { useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import { Grid, TextField, Button } from "@material-ui/core";
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    padding: theme.spacing(4)
+  },
+  formEle: {
+    marginBottom: theme.spacing(2)
+  }
+}));
+
+export default function NewThread(props) {
+  const classes = useStyles();
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+
+  handleCreate = () => {
+    setTitle("");
+    setContent("");
+  }
+
+  return (
+    <Grid container justify="center" className={classes.root}>
+      <Grid item sm={6}>
+        <TextField
+          label="Title"
+          variant="outlined"
+          value={title}
+          onChange={event => setTitle(event.target.value)}
+          fullWidth
+          className={classes.formEle}
+        />
+        <TextField
+          label="Content"
+          variant="outlined"
+          value={content}
+          onChange={event => setContent(event.target.value)}
+          multiline
+          rows="4"
+          fullWidth
+          className={classes.formEle}
+        />
+        <Button
+          color="primary"
+          variant="contained"
+          onClick={handleCreate}
+          fullWidth
+        >
+          Create
+        </Button>
+      </Grid>
+    </Grid>
+  );
+}
+```
+
+As you may have observed, I have created 2 states, title and content, 
+with initial value of empty string, and pass them as props into the `TextField` `value`. This tells `TextField` to set its value to state's value.
+
+Now, to capture the actual change and update the state values, we need to utilize the return function given to use by `useState()`, the function that allows us to set the value of the given state. To capture these changes, we pass in a function as the `onChange` prop into the `TextField` component, which would cause the funciton to be called everytime some changes is made to the `TextField` component, thus updating the values of the state to its newest state. We also passed a `onClick` prop into the button, which would be called when the button is clicked, and for now just rest the form. All these props starting with `on`, are mostly events, which we can specify to do something when some event happens, allowing us to define user interactions basically.
+
+### Routing
+
+Although we are able to view each of our components individually, it is hard for us to navigate around without changing the source code; In fact, we have not trully navigated around the app. Thus, let's introduce routing into our application.
+
+Routing as its name suggests, routes things. In this case, it helps routes urls into specific pages. Here, we will be using `react-router-dom` library, which would help us a lot for routing. Let's start by installing it in the project directory.
+
+```bash
+npm i react-router-dom
+```
+
+After installation is done, let's start using it, referring to the library, let's change `App.js`.
+
+```javascript
+import React, { useState } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import "./App.css";
+import MyAppBar from "./components/MyAppBar";
+import Home from "./screens/Home";
+import NewThread from "./screens/NewThread";
+
+function App() {
+
+  return (
+    <Router>
+      <MyAppBar>
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route path="/newthread">
+            <NewThread />
+          </Route>
+        </Switch>
+      </MyAppBar>
+    </Router>
+  );
+}
+
+export default App;
+```
+
+So here, we wrap everything with a `Router` component, which enables routing via passing props and states to its child.
+
+We then use `Switch` to wrap around screens or components to allow us to switch between routes(url).
+
+We then use `Route` to define the routes that what to match to, wrapping the screens or component we want to display when the routes is matched.
+
+Now, if we go to `/newthread`, we will be brought to the New Thread screen.
+
+Ok great, lets also allow navigating to this page via the create new thread button.
+
+```javascript
+// MyAppBar.js
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import AddIcon from "@material-ui/icons/Add";
+import { Link, useHistory } from "react-router-dom";
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1
+  },
+  menuButton: {
+    marginRight: theme.spacing(2)
+  },
+  title: {
+    flexGrow: 1
+  },
+  noLinkDeco: {
+    textDecoration: "inherit",
+    color: "inherit"
+  }
+}));
+
+export default function MyAppBar(props) {
+  const classes = useStyles();
+  const history = useHistory();
+  const {
+    homeURL,
+    createThreadURL
+  } = props;
+
+  const handleCreateThread = () => {
+    history.push(createThreadURL);
+  };
+
+  return (
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6" className={classes.title}>
+            <Link to={homeURL} className={classes.noLinkDeco}>
+              CS Forum
+            </Link>
+          </Typography>
+          <Button
+            color="inherit"
+            variant="outlined"
+            className={classes.menuButton}
+            endIcon={<AddIcon />}
+            onClick={handleCreateThread}
+          >
+            Create New Thread
+          </Button>
+          <Button color="inherit" variant="outlined">
+          Login
+          </Button>
+          )}
+        </Toolbar>
+      </AppBar>
+      {props.children}
+    </div>
+  );
+}
+```
+
+Here, you can see we used the `useHistory` react hook provided by the `react-router-dom` library to access the history object, which allows us to navigate to whatever url/routes we want. We then create a `handleCreateThread` function, which uses the `history` object to navigate to the `newthread/` url. We also used a Link which had its text decoration stripped away on the title, so that users can conveniently navigate back to their home screen if need be.
+
+To allow for reusability, the url for the create thread and the home screen would be made a prop, so that it can be configured by its parent, which in this case would be `App.js`.
+
+Let's make some relevant changes:
+
+```javascript
+// App.js
+import React, { useState } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import "./App.css";
+import MyAppBar from "./components/MyAppBar";
+import Home from "./screens/Home";
+import NewThread from "./screens/NewThread";
+
+function App() {
+
+  return (
+    <Router>
+      <MyAppBar 
+      homeURL="/"
+      createThreadURL="/newthread"/>
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route path="/newthread">
+            <NewThread />
+          </Route>
+        </Switch>
+      </MyAppBar>
+    </Router>
+  );
+}
+
+export default App;
+```
+
+### Starting on the Thread screen
+
+Now, let's focus on making the thread screen, as in the screen with all the posts and discussion on a single thread. So, to begin with, we know it would look similar to home screen, but just limited to athat single thread. Thus:
+
+```javascript
+import React, { useState} from "react";
+import { withRouter } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import Divider from "@material-ui/core/Divider";
+import ListItemText from "@material-ui/core/ListItemText";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
+import AuthContext from "../context/AuthContext";
+
+const useStyles = makeStyles(theme => ({
+  listContainer: {
+    width: "100%",
+    backgroundColor: theme.palette.background.paper
+  },
+  replyBox: {
+    padding: theme.spacing(2)
+  }
+}));
+
+function Thread({ match }) {
+  const threadID = match.params.id;
+  const classes = useStyles();
+  const [replyContent, setReplyContent] = useState("");
+  
+  const handleReply = () => {
+      setReplyContent("");
+    }
+  };
+
+  return (
+    <Grid container>
+      <Grid item xs={12}>
+        <List className={classes.listContainer}>
+          <ListItem alignItems="flex-start">
+            <ListItemText
+              primary={<strong>{"Title"}</strong>}
+              secondary={
+                <React.Fragment>
+                  {"Username(Data)"}
+                  <Typography variant="body2" color="textPrimary">
+                    {"Content"}
+                  </Typography>
+                </React.Fragment>
+              }
+            />
+          </ListItem>
+          <Divider component="li" />
+            <React.Fragment>
+              <ListItem alignItems="flex-start">
+                <ListItemText
+                  secondary={
+                    <React.Fragment>
+                      {"Username(Data)"}
+                      <Typography variant="body2" color="textPrimary">
+                        {"Content"}
+                      </Typography>
+                    </React.Fragment>
+                  }
+                />
+              </ListItem>
+              <Divider component="li" />
+            </React.Fragment>
+            <ListItem alignItems="flex-start">
+              <TextField
+                label="Replies"
+                multiline
+                fullWidth
+                value={replyContent}
+                onChange={event => {
+                  setReplyContent(event.target.value);
+                }}
+              />
+              <Button color="primary" onClick={handleReply}>
+                Reply
+              </Button>
+            </ListItem>
+        </List>
+      </Grid>
+    </Grid>
+  );
+}
+
+export default withRouter(Thread);
+```
+
+That might seem a bit confusing, but let's take a careful look.
+
+Using things we've learnt before, we imitated the code from the main screen and used it here. Now however, we have a big thread title and content up at the very top, followed by its replies and discussion below. We also added a input field and a button to allow user to reply, in addition to implementing the states.
+
+One thing that you may not be familiar with is the use of `withRouter` here. Why are we using this here? Well, for the `Thread` screen, we actually need to render different data based on different threads, and creating one for each of them is just madness. Thus, what we do is that we use an id to identify the thread by a number. By doing that, we can pass this information to the `Thread` screen rendering correct information. The `match` prop would be accessible via the `withRouter` wrap on the component, providing the information required.
+
+Let's also make the relevant changes on `App.js`.
+
+```javascript
+import React, { useState, useContext } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import "./App.css";
+import MyAppBar from "./components/MyAppBar";
+import Home from "./screens/Home";
+import Thread from "./screens/Thread";
+import NewThread from "./screens/NewThread";
+
+function App() {
+  return (
+    <Router>
+      <MyAppBar
+        homeURL="/"
+        createThreadURL="/newthread"
+      >
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route path="/thread/:id">
+            <Thread />
+          </Route>
+          <Route path="/newthread">
+            <NewThread />
+          </Route>
+        </Switch>
+      </MyAppBar>
+    </Router>
+  );
+}
+
+export default App;
+```
+
+### Let's not forget logging in
+
+Now, the final part, let's implement a login dialog that pops up when the login button on `MyAppBar` is pressed. To do that, let's first add a new component called `LoginDialog.js` into the `components/` folder, with the base code.
+
+```javascript
+import React from "react";
+
+export default function LoginDialog(props) {
+  return <div/>;
+}
+```
+
+Let's now referece the `@material-ui/core` documentation to see how dialogs can be defined, and implement it here:
+
+```javascript
+import React from "react";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles(theme => ({
+  formField: {
+    marginBottom: theme.spacing(2)
+  }
+}));
+
+export default function LoginDialog(props) {
+  const {
+    open,
+    handleClose,
+    handleLogin,
+    username,
+    password,
+    setUsername,
+    setPassword
+  } = props;
+  const classes = useStyles();
+
+  return (
+    <React.Fragment>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">Login</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            id="name"
+            label="Username"
+            type="text"
+            value={username}
+            onChange={event => {
+              setUsername(event.target.value);
+            }}
+            fullWidth
+            className={classes.formField}
+          />
+          <TextField
+            id="password"
+            label="Password"
+            type="password"
+            value={password}
+            onChange={event => {
+              setPassword(event.target.value);
+            }}
+            fullWidth
+            className={classes.formField}
+          />
+        </DialogContent>
+
+        <DialogActions>
+          <Button onClick={handleClose} color="secondary">
+            Cancel
+          </Button>
+          <Button onClick={handleLogin} color="primary">
+            Login
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </React.Fragment>
+  );
+}
+```
+
+Using what we've learnt so far, we created the login dialog component. As you can see, to ensure reusability, multiple props are passed into the component. `open` defines the current state of the dialog. `handleClose` and `handleLogin` are functions to hook into and control the behaviour when the dialog is closed or the login button is pressed. `username`, `password` and their setters will be needed to ensure that it could be used for login later when the login button is pressed.
+
+Let's not forget to make relevant changes to `App.js`.
+
+```javascript
+import React, { useState, useContext } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import "./App.css";
+import MyAppBar from "./components/MyAppBar";
+import LoginDialog from "./components/LoginDialog";
+import Home from "./screens/Home";
+import Thread from "./screens/Thread";
+import NewThread from "./screens/NewThread";
+import AuthContext from "./context/AuthContext";
+
+function App() {
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [username, setUsername] = useState("");
+  const [pass, setPass] = useState("");
+
+  const handleLoginBtn = () => {
+    setLoginOpen(true);
+  };
+
+  const handleLoginDialogClose = () => {
+    setLoginOpen(false);
+  };
+
+  const login = () => {
+  };
+
+  const logout = () => {
+    setDisplayLogin(true);
+  };
+
+  return (
+    <Router>
+      <MyAppBar
+        homeURL="/"
+        createThreadURL="/newthread"
+      >
+        <LoginDialog
+          open={loginOpen}
+          handleClose={handleLoginDialogClose}
+          handleLogin={login}
+          username={username}
+          setUsername={setUsername}
+          password={pass}
+          setPassword={setPass}
+        />
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route path="/thread/:id">
+            <Thread />
+          </Route>
+          <Route path="/newthread">
+            <NewThread />
+          </Route>
+        </Switch>
+      </MyAppBar>
+    </Router>
+  );
+}
+
+export default App;
+```
+
+## Backend (Django)
+
+With our frontend skeleton completed, its time to move towards to backend. The implementation of the logic underneath. For backend, we will be using python with a certain web framework.
 
 ### Enter our framework of the day: Django
 
@@ -417,6 +1282,8 @@ Here, we create an app called threads. Why name it so? Well, let's refer back to
 
 ![modelling again](./assets/modelling.jpg)
 
+
+
 ### Defining the models
 
 ### Views
@@ -427,11 +1294,12 @@ Here, we create an app called threads. Why name it so? Well, let's refer back to
 
 ### API design
 
-### Autogen Documentation
 
-### Connecting Front and Back
+## Connecting Front to Back
 
 Now, with the api defined, we can connect our frontend with the backend. Let's implment this functionality.
+
+
 
 ## Testing and Test Driven Development
 

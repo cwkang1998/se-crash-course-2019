@@ -8,15 +8,9 @@ import ListItemText from "@material-ui/core/ListItemText";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1
-  },
   listContainer: {
     width: "100%",
     backgroundColor: theme.palette.background.paper
-  },
-  inline: {
-    display: "inline"
   }
 }));
 
