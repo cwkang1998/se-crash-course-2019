@@ -1469,8 +1469,6 @@ class PostRetrievedUpdateDestroyView(RetrieveUpdateDestroyAPIView):
 
 ### Serialization
 
-
-
 ### Routing and URLS
 
 ### API design
@@ -1481,7 +1479,6 @@ Well, there are multiple ways of defining your web APIs, and each have their own
 
 Well according to wikipedia:
 > Representational state transfer (REST) is a software architectural style that defines a set of constraints to be used for creating Web services. Web services that conform to the REST architectural style, called RESTful Web services, provide interoperability between computer systems on the Internet. RESTful Web services allow the requesting systems to access and manipulate textual representations of Web resources by using a uniform and predefined set of stateless operations
-
 
 Of course, REST is not the only choice, there are others out there such as SOAP and RPC, so feel free to look into them as well!
 

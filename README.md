@@ -6,7 +6,7 @@ Software engineering crash course workshop starting from 11/11 until 2/12.
 
 ### [Session 1 - Before Development Begins](./Session1.md)
 
-### [Session 2 - Actual Development: The Practicals](./Session2.md)
+### [Session 2 - Actual Development: The Practicals](./Session2/)
 
 ### [Session 3 - Mid Development: Challenges, Deployment and CI/CD](./Session3.md)
 
