@@ -1,6 +1,6 @@
 # SE Crash Course 2019
 
-Software engineering crash course workshop starting from 11/11 until 2/12.
+Software engineering crash course workshop starting from 11/11 until 9/12.
 
 ## Table of Content
 
