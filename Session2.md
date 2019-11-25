@@ -39,11 +39,15 @@
     - [Starting development! Creating a new django project](#starting-development-creating-a-new-django-project)
     - [Creating our first app in django](#creating-our-first-app-in-django)
     - [Defining the models](#defining-the-models)
+    - [Utilizing the Admin Panel](#utilizing-the-admin-panel)
     - [Views](#views)
-    - [Serialization and Rendering: Comparing Null differences](#serialization-and-rendering-comparing-null-differences)
+    - [Serialization](#serialization)
     - [Routing and URLS](#routing-and-urls)
     - [API design](#api-design)
+    - [Authentication and Permission](#authentication-and-permission)
   - [Connecting Front to Back](#connecting-front-to-back)
+    - [Home Screen](#home-screen)
+    - [New Thread Screen](#new-thread-screen)
   - [Testing and Test Driven Development](#testing-and-test-driven-development)
     - [Test Coverage](#test-coverage)
 
@@ -1244,7 +1248,7 @@ forum/
         wsgi.py
 ```
 
-Let me offer a little bit of explaination. We've just created a project called `forum`. Inside this project there is a folder also called `forum`, which is the package of your actual project, and act as a place for you to configure project wide settings with `settings.py`, and configure routing to other apps via `urls.py`. `manage.py` is a command line utility that allows you to do things with the project easily.
+Let me offer a little bit of explaination. We've just created a project called `forum`. Inside this project there is a folder also called `forum`, which is the package of your actual project, and act as a place for you to configure project wide settings with `settings.py`, and configure routing to other apps via `urls.py`.   `manage.py` is a command line utility that allows you to do things with the project easily.
 
 Now, let's try running the project. To do so, simply do `python manage.py runserver` and it should start running. You would see something like so:
 
@@ -1282,24 +1286,284 @@ Here, we create an app called threads. Why name it so? Well, let's refer back to
 
 ![modelling again](./assets/modelling.jpg)
 
+From the diagram, we can see that theres 2 main functionality, one that concerns itself with the user, thus authentication and permission, and another that concerns itself with the forum based functionality. And so, it seems quite appropriate to create an app called `threads` and another called `account`, each with different tasks.
 
+You should see something like this after creating the app:
+
+```bash
+forum/
+    manage.py
+    forum/
+        __init__.py
+        settings.py
+        urls.py
+        wsgi.py
+    threads/
+        __init__.py
+        admin.py
+        apps.py
+        models.py
+        tests.py
+        views.py
+```
+
+Ok, explaination time. `__init__.py` as usual defines that the folder is made into a package. `admin.py` allows you to implement your own admin model and admin panel user interface. `apps.py` is created to help user include any application configuration. `models.py` have all the models for the database, and is where the schema and structure of the database can be defined. `tests.py` is where the unit tests for the application should be written. `views.py` is where the view functions will be defined, which handles any incoming requests and at the same time return a response indicative of the status for the tasks accompished.
 
 ### Defining the models
 
+Let's start from the database, which in this case, would be the models. Let's refer to the diagram, and design our model based on it.
+
+```python
+from django.db import models
+from django.contrib.auth.models import User
+
+
+class Thread(models.Model):
+    owner_id = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+
+class Post(models.Model):
+    user_id = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    thread_id = models.ForeignKey(to=Thread, on_delete=models.CASCADE)
+    content = models.TextField()
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.content
+```
+
+It is slightly different from the original database design, but this should be okay nonetherless.
+
+So, why aren't we defining a User model? Actually there is! Django provide us with a default User, which would be used unless we specifically specify that we do not want to use it. For this case, we do not really need customized user, and thus we would not need to define our own user model.
+
+What the code is doing is quite self-explainatory; A `Thread` model is created with `owner`, `title`, `content` and `created_at` as its field. A `Post` models is also created with the fields `user_id`, `thread_id`, `content` and `updated_at`. After defining these models, we can now `makemigration` and `migrate`, which generates the code for the migration and applies the migration to the database respectively:
+
+```bash
+# Make migration
+python manage.py makemigrations
+
+# Look at the migration folder inside the thread app model
+# You should see a file called 0001_initial.py that contains code
+# for the migration.
+
+# Applying the migration
+python manage.py migrate
+```
+
+Here, when we talk about **migration**, we are referring to the action of applying changes made in models (code) on the actual database.
+
+### Utilizing the Admin Panel
+
+The automatic admin interface is one of the most powerful features that django provides, and is one of the reason people like to use django. Let's try using the admin panel.
+
+First, let's create a superuser account for django via the below command:
+
+```bash
+python manage.py createsuperuser
+```
+
+This would bring you through some questions, and at the end of it you would have created a new superuser. Now, let's login with that superuser. Let's go to http://localhost:8000/admin to access the admin panel.
+
+![django admin login](./assets/django_admin_page.png)
+
+Login using your superuser account and you should see something like this.
+
+![django admin panel](./assets/django_admin_page2.png)
+
+Nice, but where is our newly defined models? Well, to actually add them into the admin panel, we have to register them into the admin panel, to do that, simply go to the `admin.py` file and add these few lines:
+
+```python
+from django.contrib import admin
+from .models import Thread, Post
+
+admin.site.register(Thread)
+admin.site.register(Post)
+```
+
+Now, let's take a look at the admin panel again!
+
+![django admin panel](./assets/django_admin_page3.png)
+
+Nice! Now we can use the admin panel features for our `Thread` and `Post` models!
+
 ### Views
 
-### Serialization and Rendering: Comparing Null differences
+Now that we have our data models, we have to think of some way to let the outside world access and manipulate these data. To do that, we require `views`.
+
+**P.S. Do not get confused with the use of `views` especially when you heard of MVC, it does not refer to the same concept, and is of another thing entirely.**
+
+`views` are basically just something that deals with incoming requests and responds to these requests. Inside each `view`, we define how and what data should be returned. One might say `view` contains the implementation of the business logic.
+
+That said, let's define views for both the `Thread` and `Post` models.
+
+```python
+from rest_framework.views import APIView
+from rest_framework.generics import RetrieveUpdateDestroyAPIView
+from rest_framework import status
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.response import Response
+from .models import Thread, Post
+from .serializers import ThreadSerializer, PostSerializer
+
+
+class ThreadListCreateView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get(self, request, format=None):
+        mine = request.query_params.get("mine", 0)
+        queryset = Thread.objects.all().order_by("-created_at")
+        if mine == 1:
+            queryset = queryset.filter(owner_id=request.user)
+        serializer = ThreadSerializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request, format=None):
+        serializer = ThreadSerializer(data=request.data)
+        if serializer.is_valid():
+            created = serializer.save(owner_id=request.user)
+            created = ThreadSerializer(created)
+            return Response(created.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ThreadRetrievedUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+    queryset = Thread.objects.all()
+    serializer_class = ThreadSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+
+class PostListCreateView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get(self, request, format=None):
+        thread_id = request.query_params.get("thread_id", 0)
+        queryset = Post.objects.filter(thread_id=thread_id).order_by("id")
+        serializer = PostSerializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request, format=None):
+        serializer = PostSerializer(data=request.data)
+        if serializer.is_valid():
+            created = serializer.save(user_id=request.user)
+            created = PostSerializer(created)
+            return Response(created.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PostRetrievedUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticatedOrReadOnly]
+```
+
+### Serialization
+
+
 
 ### Routing and URLS
 
 ### API design
 
+You might notice we follow certain conventions when we are actually defining and declaring our route for our API. Why is that so?
+
+Well, there are multiple ways of defining your web APIs, and each have their own merits and demerits. Of course, we can also define our own format for our web APIs, but here we are specifically using the REST APIs. So what exactly are REST APIs?
+
+Well according to wikipedia:
+> Representational state transfer (REST) is a software architectural style that defines a set of constraints to be used for creating Web services. Web services that conform to the REST architectural style, called RESTful Web services, provide interoperability between computer systems on the Internet. RESTful Web services allow the requesting systems to access and manipulate textual representations of Web resources by using a uniform and predefined set of stateless operations
+
+
+Of course, REST is not the only choice, there are others out there such as SOAP and RPC, so feel free to look into them as well!
+
+### Authentication and Permission
 
 ## Connecting Front to Back
 
-Now, with the api defined, we can connect our frontend with the backend. Let's implment this functionality.
+Now, with the api defined, we can connect our frontend with the backend. Let's implement these functionality.
 
+### Home Screen
 
+Again, let's start with the home screen. Since we now have the api, we can now establish communication between the client and the server. The home screen displays a list of threads, ordered from latests to oldests. This is implemented via the endpoint `GET /thread/`. Authentication is not required for the endpoint.
+
+With that said, let's start implementing.
+
+```javascript
+import React, { useState, useEffect } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import Divider from "@material-ui/core/Divider";
+import ListItemText from "@material-ui/core/ListItemText";
+import { Link } from "react-router-dom";
+
+const useStyles = makeStyles(theme => ({
+  listContainer: {
+    width: "100%",
+    backgroundColor: theme.palette.background.paper
+  }
+}));
+
+export default function Home(props) {
+  const classes = useStyles();
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      let req = await fetch("http://localhost:8000/thread");
+      if (req.status === 200) {
+        let newData = await req.json();
+        setData(newData);
+        console.log(newData);
+      }
+      console.log(req);
+    }
+    fetchData();
+  }, []);
+
+  return (
+    <Grid container justify="center">
+      <Grid item sm={8}>
+        <List className={classes.listContainer}>
+          {data.map(({ id, title, created_at }) => (
+            <React.Fragment key={id}>
+              <ListItem alignItems="flex-start" key={id}>
+                <ListItemText
+                  primary={<Link to={`/thread/${id}`}>{title}</Link>}
+                  secondary={new Date(created_at).toString()}
+                />
+              </ListItem>
+              <Divider component="li" />
+            </React.Fragment>
+          ))}
+        </List>
+      </Grid>
+    </Grid>
+  );
+}
+```
+
+We initialize states for saving all the threads data. Then we utilize the `useEffect` hook. The `useEffect` hook allows you to perform side effects in function-based components, basically allowing you to handle methods which interact with the "outside world". We will be using this since we are going to communicate with our backend API.
+
+Within `useEffect`, we then define a async function that fetches the required data from the endpoints `GET /thread/`, then save the data as a state, which would update and populate the user interface with the acquired data.
+
+One thing that you might notice is the empty array that was passed as a second argument, this meant that useEffect would only be called once right after the first render of the component for each event, which is fine. If the array contains any variables or states, then the useEffect function would be triggered everytime the elements given inside the array changes. In simpler terms, the array argument for `useEffect` specifies what variables would trigger `useEffect` on change.
+
+Nice, we had the home screen integrated. Let's move on to:
+
+### New Thread Screen
+
+Okay, so, we want to only allow logged in users to access the `NewThread` screen and post new threads. To ensure that, we have to integrate authentication into the application.
 
 ## Testing and Test Driven Development
 

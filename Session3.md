@@ -15,7 +15,7 @@ Most common among all of the challenges, radical requirements changes is one of 
 
 ### Platform Constraints
 
-- Vendor locking
+To enable a better development quality and speed, we may or may not end up relying on a certain platform during the initial development of the project. However, sometimes the project relies too much on the platform, with the platform acting as a critical dependency for the application's operation.
 
 ### Environmental Constraints
 
@@ -42,3 +42,5 @@ Well, it does not really mean that the data is on cloud and what not, what it ac
  
 
 ## Containerization
+
+
